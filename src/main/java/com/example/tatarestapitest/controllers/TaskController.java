@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class TaskController {
 
     @PostMapping({"/create"})
     @ApiOperation("Create a new task")
-    public TaskModel saveTask(@RequestBody TaskCreationDTO taskCreationDTO) {
+    public TaskModel saveTask(@Valid @RequestBody TaskCreationDTO taskCreationDTO) {
         TaskModel task = new TaskModel();
         BeanUtils.copyProperties(taskCreationDTO, task);
         return taskService.saveTask(task);
