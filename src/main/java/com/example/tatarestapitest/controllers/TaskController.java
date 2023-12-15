@@ -3,8 +3,8 @@ package com.example.tatarestapitest.controllers;
 import com.example.tatarestapitest.DataTransferObjects.CreateDTO.TaskCreationDTO;
 import com.example.tatarestapitest.models.TaskModel;
 import com.example.tatarestapitest.services.TaskService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,22 +16,26 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
+@Api(tags = "Tasks-api")
 public class TaskController {
     @Autowired
     TaskService taskService;
 
     @GetMapping("/getAllTasks")
+    @ApiOperation("Get all tasks")
     public ArrayList<TaskModel> getTasks(){
         return taskService.getTasks();
     }
 
     @GetMapping("/getTaskById/{id}")
+    @ApiOperation("Get a task by ID")
     public Optional<TaskModel> getTaskById(@PathVariable Long id){
         return taskService.getById(id);
     }
 
 
     @PostMapping({"/create"})
+    @ApiOperation("Create a new task")
     public TaskModel saveTask(@RequestBody TaskCreationDTO taskCreationDTO) {
         TaskModel task = new TaskModel();
         BeanUtils.copyProperties(taskCreationDTO, task);
@@ -39,6 +43,7 @@ public class TaskController {
     }
 
     @PutMapping("/update/{id}")
+    @ApiOperation("Update an existing task")
     public ResponseEntity<String> updateTask(
             @PathVariable("id") Long id,
             @RequestParam(required = false) Optional<String> title,
@@ -53,6 +58,7 @@ public class TaskController {
     }
 
     @DeleteMapping( path = "/delete/{id}")
+    @ApiOperation("Delete a task by ID")
     public ResponseEntity<String> deleteById(@PathVariable("id") Long id){
         boolean ok = this.taskService.deleteTask(id);
         if (ok){
