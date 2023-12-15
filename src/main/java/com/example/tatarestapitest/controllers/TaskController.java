@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/tasks")
 @Api(tags = "Tasks-api")
 public class TaskController {
